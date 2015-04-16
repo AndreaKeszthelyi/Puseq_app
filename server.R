@@ -887,8 +887,8 @@ Wigdata <- function(name, ratio.table, row,  bin, color, h.line,chro,chromoname_
 
   
   header0 = paste('track type=wiggle_0 name="', name,
-                  '" description=downloaded from Puseq app Y. Daigaku & A. Keszthelyi, 2015"', date(), 
-                  '" visibility=full autoScale=off color=', color,
+                  ' description="downloaded from Puseq_app (A. Keszthelyi & Y. Daigaku, 2015)"', date(), 
+                  ' visibility=full autoScale=off color=', color,
                   ' yLineOnOff=on yLineMark=', h.line, 
                   ' priority=10', sep="")
   wiglist<- list()
