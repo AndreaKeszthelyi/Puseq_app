@@ -902,6 +902,7 @@ Wigdata <- function(name, ratio.table, row,  bin, color, h.line,chro,chromoname_
   
   ratio.table.chr = ratio.table[ratio.table$chromosome==chromo,]
   data.chr<-as.numeric(as.vector(ratio.table.chr[,row]))
+  data.chr[is.na(data.chr)]<- 0
   
   wiglist<-c(wiglist,header,list(data.chr))}
   
