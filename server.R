@@ -696,7 +696,9 @@ Closeori<-function(pos, bin){
     }
     
   }
-  posremove<-c(pos[-remove])
+  if(length(remove>0)){
+  posremove<-c(pos[-remove])}else
+  posremove<-pos
   posreplace<-sort(unique(c(posremove,replace)))
   return(posreplace)
   
@@ -868,19 +870,47 @@ orieff_merge<-function(orieff_ef, orieff_ef_pos, orieff_dr, orieff_dr_pos,chro,b
         value<-c(value, mean(c(orieff_dr[match(drunpaired[i],orieff_dr_pos)], orieff_ef[match((drunpaired[i]-4*bin),orieff_ef_pos)])))
         valuepos<-c(valuepos, (drunpaired[i]-2*bin))
         
-      } 
+      }} 
       chromosome<-rep(chro,length(valuepos))
-      orilist<-cbind(chromosome,valuepos,value)
+      orilist<-as.data.frame(cbind(chromosome,valuepos,value))
       colnames(orilist)<-c("chromosome","maxpos","efficiency")
-    }
+    
+    #### Remove duplicates and zero values ####
+    
+    orilist_dupl<-which(duplicated(orilist$maxpos))
+    if (length(orilist_dupl)>0){
+      a<-c()
+      for (i in 1:length(orilist_dupl)){
+        a<-c(a,(as.numeric(as.vector(orilist$efficiency[orilist_dupl[i]]))+as.numeric(as.vector(orilist$efficiency[orilist_dupl[i]-1])))/2)
+        levels(orilist$efficiency)<-c(levels(orilist$efficiency),a)}
+      orilist$efficiency[orilist_dupl-1]<-a
+      orilist<-orilist[-orilist_dupl,]
+      orilist<-orilist[orilist$efficiency !=0,]}
+      
+    
   }else if(length(efunpaired)==0 | length(drunpaired)==0){
-   
+    
     chromosome<-rep(chro,length(valuepos))
-    orilist<-cbind(chromosome,valuepos,value)
-    colnames(orilist)<-c("chromosome","maxpos","efficiency")}
+    orilist<-as.data.frame(cbind(chromosome,valuepos,value))
+    colnames(orilist)<-c("chromosome","maxpos","efficiency")
   
+    #### Remove duplicates and zero values ####
+  
+  orilist_dupl<-which(duplicated(orilist$maxpos))
+  if (length(orilist_dupl)>0){
+    a<-c()
+    for (i in 1:length(orilist_dupl)){
+      a<-c(a,(as.numeric(as.vector(orilist$efficiency[orilist_dupl[i]]))+as.numeric(as.vector(orilist$efficiency[orilist_dupl[i]-1])))/2)
+      levels(orilist$efficiency)<-c(levels(orilist$efficiency),a)}
+      orilist$efficiency[orilist_dupl-1]<-a
+      orilist<-orilist[-orilist_dupl,]
+      orilist<-orilist[orilist$efficiency !=0,]}}
+  
+  
+
   return(orilist) 
 }
+
 
 
 Wigdata <- function(name, ratio.table, row,  bin, color, h.line,chro,chromoname_in){
