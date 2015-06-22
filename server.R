@@ -375,12 +375,12 @@ shinyServer(function(input, output,session) {
   par(new=T)
   plot(dat_df.chr[,2],dat_dr.chr[,3], xlim = X_lim, col = 2,type="b",ylab="",ylim = Y_lim,axes = F)
   par(new=T)
-  plot(dat_df.chr[,2],dat_ef.chr[,3], xlim = X_lim, col = 3,type="b",ylab="",ylim = Y_lim,axes = F)
+  plot(dat_df.chr[,2],dat_ef.chr[,3], xlim = X_lim, col = 7,type="b",ylab="",ylim = Y_lim,axes = F)
   par(new=T)
   plot(dat_df.chr[,2],dat_er.chr[,3], xlim = X_lim, col = 4,type="b",ylab="",ylim = Y_lim,axes = F)
   mtext(paste("Position on ", input$chromo_2), side=1, cex=1.5, line = 3)
   add_legend("topright", legend=c("delta forward", "delta reverse", "epsilon forward", "epsilon reverse"), pch=20, 
-             col=c(1:4),
+             col=c(1,2,7,4),
              horiz=TRUE, bty='n', cex=1.5)
   
   
